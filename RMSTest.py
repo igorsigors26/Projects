@@ -1,14 +1,14 @@
 from typing import List, Sequence
 
-NumberGrid = Sequence[Sequence[int]]
+NumberGrid = Sequence[Sequence[float]]
 
 
-def find_greatest_product_of_contiguous_integers(
+def find_greatest_product_of_contiguous_numbers(
     grid: NumberGrid,
-    contiguous_integers: int
-) -> int:
+    contiguous_numbers: float
+) -> float:
     """
-    Find the greatest product of `contiguous_integers` adjacent numbers in the same
+    Find the greatest product of `contiguous_numbers` adjacent numbers in the same
     direction in a 2D grid.
 
     Directions considered:
@@ -18,18 +18,18 @@ def find_greatest_product_of_contiguous_integers(
         - Diagonal    (top-right → bottom-left and bottom-left → top-right)
 
     Args:
-        grid: 2D sequence of ints representing the number grid.
-        contiguous_integers: Length of each run of adjacent numbers.
+        grid: 2D sequence of floats representing the number grid.
+        contiguous_numbers: Length of each run of adjacent numbers.
 
     Returns:
-        The maximum product found as an int.
+        The maximum product found as an float.
 
     Raises:
         ValueError: If the grid is empty, rows have different lengths,
-                    or contiguous_integers < 1.
+                    or contiguous_numbers < 1.
     """
-    if contiguous_integers < 1:
-        raise ValueError("contiguous_integers must be >= 1")
+    if contiguous_numbers < 1:
+        raise ValueError("contiguous_numbers must be >= 1")
 
     if not grid:
         raise ValueError("Grid must not be empty")
@@ -41,7 +41,7 @@ def find_greatest_product_of_contiguous_integers(
     if any(len(row) != col_count for row in grid):
         raise ValueError("All rows in the grid must have the same length")
 
-    k = contiguous_integers
+    k = contiguous_numbers
     max_product = None
 
     # Directions: (dr, dc)
@@ -77,7 +77,7 @@ def find_greatest_product_of_contiguous_integers(
 
 # --- Optional helpers / tests for your submission ---
 
-def count_unique_combinations_of_length_k(grid: NumberGrid, k: int) -> int:
+def count_unique_combinations_of_length_k(grid: NumberGrid, k: float) -> float:
     """
     Counts how many unique combinations of length k exist in the grid
     in the four base directions (right, down, down-right, down-left),
@@ -142,5 +142,5 @@ if __name__ == "__main__":
     print("Unique combinations of length 3:", combos_len_3)  # Expected: 288
 
     # Question 2: greatest product of 3 adjacent numbers
-    max_prod_3 = find_greatest_product_of_contiguous_integers(grid, 3)
+    max_prod_3 = find_greatest_product_of_contiguous_numbers(grid, 3)
     print("Greatest product for length 3:", max_prod_3)  # Expected: 667755
