@@ -1,4 +1,4 @@
-from typing import List, Sequence
+from typing import List, Sequence, Tuple
 
 NumberGrid = Sequence[Sequence[float]]
 
@@ -97,6 +97,11 @@ def count_unique_combinations_of_length_k(grid: NumberGrid, k: float) -> float:
     ]
 
     seen = set()
+    
+    Pair = Tuple[int, int]
+
+    # A Row is a sequence of coordinate Pairs.
+    Row = Tuple[Pair, ...]
 
     for r in range(row_count):
         for c in range(col_count):
@@ -107,18 +112,15 @@ def count_unique_combinations_of_length_k(grid: NumberGrid, k: float) -> float:
                 if not (0 <= end_r < row_count and 0 <= end_c < col_count):
                     continue
 
-                seq = []
+                row : Row = ()
                 for i in range(k):
                     rr = r + i * dr
                     cc = c + i * dc
-                    seq.append(grid[rr][cc])
+                    row = row + ((rr,cc),)
 
                 # Treat sequence and its reverse as the same combination
-                fwd = tuple(seq)
-                rev = tuple(reversed(seq))
-                canonical = min(fwd, rev)
+                canonical = tuple(sorted(row))
                 seen.add(canonical)
-
     return len(seen)
 
 
@@ -138,9 +140,9 @@ if __name__ == "__main__":
     ]
 
     # Question 1: how many combinations of length 3?
-    combos_len_3 = count_unique_combinations_of_length_k(grid, 3)
-    print("Unique combinations of length 3:", combos_len_3)  # Expected: 288
+    combos_len = count_unique_combinations_of_length_k(grid, 3)
+    print("Unique combinations of length 3:", combos_len)  # Expected: 288
 
     # Question 2: greatest product of 3 adjacent numbers
-    max_prod_3 = find_greatest_product_of_contiguous_numbers(grid, 3)
-    print("Greatest product for length 3:", max_prod_3)  # Expected: 667755
+    max_prod = find_greatest_product_of_contiguous_numbers(grid, 3)
+    print("Greatest product for length 3:", max_prod)  # Expected: 667755
